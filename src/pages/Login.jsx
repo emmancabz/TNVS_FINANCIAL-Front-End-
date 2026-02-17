@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Lock, Mail } from 'lucide-react'
 
 // Company logo – from project image/logo.jpg (for Vite, ensure image folder is at project root or in public/image/logo.jpg)
-const logoUrl = '/image/logo.jpg'
+const logoUrl = '/image/Sidebar.png'
 
 function Login() {
   const [email, setEmail] = useState('')

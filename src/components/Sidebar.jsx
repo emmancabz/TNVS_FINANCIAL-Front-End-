@@ -9,7 +9,7 @@ import {
   CreditCard,
 } from 'lucide-react'
 
-const logoUrl = new URL('../assets/images/logo.jpg', import.meta.url).href
+const logoUrl = new URL('../assets/images/Sidebar.png', import.meta.url).href
 
 const menuItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
