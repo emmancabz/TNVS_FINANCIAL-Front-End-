@@ -9,7 +9,7 @@ function Disbursement() {
     <div className="p-6 md:p-8 lg:p-10 max-w-6xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 tracking-tight">Disbursement</h1>
-        <p className="text-gray-500">Lumalabas na pera.</p>
+        <p className="text-gray-500">Cash Outflow & Fund Settlement</p>
       </div>
 
       <div className="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden">

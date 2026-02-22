@@ -246,7 +246,7 @@ function BudgetManagement() {
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 tracking-tight">Budget Management</h1>
-          <p className="text-gray-500">Plano vs Katotohanan.</p>
+          <p className="text-gray-500">Resource Allocation Control</p>
         </div>
         <button
           type="button"
