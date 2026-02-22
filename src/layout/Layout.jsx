@@ -10,15 +10,15 @@ function Layout({ children }) {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-[#f5f5f7]">
       <Sidebar isExpanded={isExpanded} toggleSidebar={toggleSidebar} />
       <div
-        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
-          isExpanded ? 'ml-[240px]' : 'ml-[70px]'
+        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+          isExpanded ? 'ml-[260px]' : 'ml-[72px]'
         }`}
       >
         <Header />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto min-h-0">
           {children}
         </main>
       </div>

@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react'
 import Layout from './layout/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import Message from './pages/Message'
 import Disbursement from './pages/Disbursement'
 import GeneralLedger from './pages/GeneralLedger'
-import APAR from './pages/APAR'
 import BudgetManagement from './pages/BudgetManagement'
 import Collections from './pages/Collections'
+import AccountsPayable from './pages/AccountsPayable'
+import AccountsReceivable from './pages/AccountsReceivable'
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
@@ -47,6 +49,16 @@ function App() {
         }
       />
       <Route
+        path="/message"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Message />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/disbursement"
         element={
           <ProtectedRoute>
@@ -67,15 +79,26 @@ function App() {
         }
       />
       <Route
-        path="/ap-ar"
+        path="/accounts-payable"
         element={
           <ProtectedRoute>
             <Layout>
-              <APAR />
+              <AccountsPayable />
             </Layout>
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/accounts-receivable"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <AccountsReceivable />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/ap-ar" element={<Navigate to="/accounts-payable" replace />} />
       <Route
         path="/budget-management"
         element={

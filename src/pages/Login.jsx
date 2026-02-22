@@ -1,14 +1,28 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Lock, Mail } from 'lucide-react'
+import { Lock, Mail, Eye, EyeOff, ArrowRight, Moon, RefreshCw } from 'lucide-react'
 
-// Company logo – from project image/logo.jpg (for Vite, ensure image folder is at project root or in public/image/logo.jpg)
-const logoUrl = '/image/Sidebar.png'
+let loginLogoUrl
+try {
+  loginLogoUrl = new URL('../assets/images/Sidebar.png', import.meta.url).href
+} catch {
+  loginLogoUrl = '/image/Sidebar.png'
+}
+
+const CAPTCHA_CODE = 'A7K9'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [captchaInput, setCaptchaInput] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
+  const [captchaCode, setCaptchaCode] = useState(CAPTCHA_CODE)
   const navigate = useNavigate()
+
+  const refreshCaptcha = () => {
+    setCaptchaCode(['A7K9', 'B2M4', 'C8N1', 'D3P6'][Math.floor(Math.random() * 4)])
+  }
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -17,93 +31,135 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-          {/* Company Logo */}
-          <div className="flex justify-center mb-6">
-            <div className="relative flex items-center justify-center w-full">
-              <img
-                src={logoUrl}
-                alt="Company Logo"
-                className="h-20 w-auto object-contain max-w-[200px]"
-                onError={(e) => {
-                  e.target.style.display = 'none'
-                  const fb = e.target.nextElementSibling
-                  if (fb) fb.classList.remove('hidden')
-                }}
-              />
-              <div className="logo-fallback hidden flex w-24 h-24 bg-primary-100 rounded-full items-center justify-center border-4 border-primary-200 text-primary-600 text-2xl font-bold">
-                TNVS
-              </div>
+    <div className={`min-h-screen flex items-center justify-center p-4 transition-colors duration-300 ${darkMode ? 'bg-gray-900' : 'bg-[#eef0f2]'}`}>
+      <div className="w-full max-w-md relative">
+        <div className={`rounded-3xl shadow-lg p-8 md:p-10 transition-colors duration-300 ${darkMode ? 'bg-gray-800' : 'bg-white'}`} style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
+          <div className="absolute top-5 right-5">
+            <button
+              type="button"
+              onClick={() => setDarkMode(!darkMode)}
+              className={`p-2 rounded-xl transition-colors ${darkMode ? 'text-amber-300 hover:bg-gray-700' : 'text-gray-500 hover:bg-gray-100'}`}
+              aria-label="Dark mode"
+            >
+              <Moon className="w-5 h-5" strokeWidth={1.6} />
+            </button>
+          </div>
+
+          {/* Logo: large, centered, aligned with form */}
+          <div className="flex justify-center mb-8">
+            <img
+              src={loginLogoUrl}
+              alt="Logo"
+              className="h-24 w-auto max-w-[220px] object-contain object-center"
+              style={{ imageRendering: 'auto' }}
+              onError={(e) => {
+                e.target.style.display = 'none'
+                const next = e.target.nextElementSibling
+                if (next) next.classList.remove('hidden')
+              }}
+            />
+            <div className="hidden h-24 w-24 rounded-2xl bg-[#2ecc71]/15 items-center justify-center text-[#2ecc71] font-semibold text-2xl">
+              TNVS
             </div>
           </div>
 
-          {/* Welcome Text */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-            <p className="text-gray-600">Sign in to TNVS Financial System</p>
-          </div>
-
-          {/* Login Form */}
-          <form onSubmit={handleLogin} className="space-y-6">
-            {/* Email/Username Input */}
+          <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email / Username
+              <label htmlFor="email" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">
+                Email
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" strokeWidth={1.6} />
                 <input
                   id="email"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
-                  placeholder="Enter your email or username"
+                  className={`w-full pl-11 pr-4 py-3.5 rounded-xl border text-sm outline-none transition-all placeholder-gray-400 ${
+                    darkMode
+                      ? 'bg-gray-700 border-gray-600 text-gray-100 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
+                      : 'bg-white border-gray-200 text-gray-900 focus:border-gray-300 focus:ring-2 focus:ring-gray-200'
+                  }`}
+                  placeholder="Enter your email"
                   required
                 />
               </div>
             </div>
 
-            {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" strokeWidth={1.6} />
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all"
+                  className={`w-full pl-11 pr-12 py-3.5 rounded-xl border text-sm outline-none transition-all placeholder-gray-400 ${
+                    darkMode
+                      ? 'bg-gray-700 border-gray-600 text-gray-100 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
+                      : 'bg-white border-gray-200 text-gray-900 focus:border-gray-300 focus:ring-2 focus:ring-gray-200'
+                  }`}
                   placeholder="Enter your password"
                   required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" strokeWidth={1.6} /> : <Eye className="w-5 h-5" strokeWidth={1.6} />}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">
+                Captcha
+              </label>
+              <div className={`rounded-xl p-4 ${darkMode ? 'bg-gray-700/80' : 'bg-gray-100'}`}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`flex-1 flex items-center justify-center py-3 rounded-lg font-mono text-lg font-bold tracking-widest ${darkMode ? 'bg-gray-600 text-gray-200' : 'bg-white text-gray-800 border border-gray-200'}`}>
+                    {captchaCode}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={refreshCaptcha}
+                    className="p-2.5 rounded-lg text-blue-500 hover:bg-blue-500/10 transition-colors"
+                    aria-label="Refresh captcha"
+                  >
+                    <RefreshCw className="w-5 h-5" strokeWidth={1.8} />
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  value={captchaInput}
+                  onChange={(e) => setCaptchaInput(e.target.value)}
+                  className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-all placeholder-gray-400 ${
+                    darkMode
+                      ? 'bg-gray-600 border-gray-500 text-gray-100 focus:border-blue-400'
+                      : 'bg-white border-gray-200 text-gray-900 focus:border-gray-300'
+                  }`}
+                  placeholder="Enter the code"
                 />
               </div>
             </div>
 
-            {/* Login Button */}
             <button
               type="submit"
-              className="w-full bg-primary-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-[#94a3b8] hover:bg-[#64748b] text-white font-bold text-sm uppercase tracking-wider transition-all duration-200 shadow-sm"
             >
-              Login
+              Authenticate
+              <ArrowRight className="w-5 h-5" strokeWidth={2.2} />
             </button>
           </form>
 
-          {/* Footer */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500">
-              © 2026 TNVS Finance System. All rights reserved.
-            </p>
-          </div>
+          <p className={`mt-6 text-center text-[10px] ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+            © 2026 TNVS Finance System
+          </p>
         </div>
       </div>
     </div>

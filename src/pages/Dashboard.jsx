@@ -60,26 +60,26 @@ const kpis = [
 
 function Dashboard() {
   return (
-    <div className="p-4 md:p-6 lg:p-8">
-      <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
-        <p className="text-gray-600">TNVS Financial Management System</p>
+    <div className="p-6 md:p-8 lg:p-10">
+      <div className="mb-8">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 tracking-tight">Dashboard</h1>
+        <p className="text-gray-500">TNVS Financial Management System</p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
         {kpis.map((kpi) => {
           const Icon = kpi.icon
           return (
             <div
               key={kpi.label}
-              className={`${kpi.bg} rounded-xl p-4 md:p-6 border border-gray-200`}
+              className={`${kpi.bg} rounded-2xl p-5 md:p-6 border border-gray-100 shadow-soft hover:shadow-card transition-shadow duration-200`}
             >
-              <div className="flex items-center justify-between mb-2">
-                <Icon className={`w-8 h-8 ${kpi.color}`} />
+              <div className="flex items-center justify-between mb-3">
+                <Icon className={`w-8 h-8 ${kpi.color}`} strokeWidth={1.6} />
               </div>
-              <p className="text-xl md:text-2xl font-bold text-gray-900">{kpi.value}</p>
-              <p className="text-sm text-gray-600 mt-1">{kpi.label}</p>
+              <p className="text-xl md:text-2xl font-semibold text-gray-900">{kpi.value}</p>
+              <p className="text-sm text-gray-500 mt-1">{kpi.label}</p>
             </div>
           )
         })}
@@ -87,7 +87,7 @@ function Dashboard() {
 
       {/* Charts - responsive wrappers */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6 overflow-hidden">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Total Boundary Collected</h2>
           <div className="h-[220px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
@@ -108,7 +108,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6 overflow-hidden">
           <h2 className="text-lg font-semibold text-gray-900 mb-1">Monthly Expenses</h2>
           <p className="text-xs text-gray-500 mb-4">Company only — Fuel, Payroll, Utilities, Office (excl. driver-funded maintenance)</p>
           <div className="h-[220px] w-full min-w-0">
@@ -126,7 +126,7 @@ function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6 overflow-hidden">
           <h2 className="text-lg font-semibold text-gray-900 mb-1">Category Breakdown</h2>
           <p className="text-xs text-gray-500 mb-4">Company expenses only</p>
           <div className="h-[260px] w-full min-w-0">
@@ -136,12 +136,14 @@ function Dashboard() {
                   data={CATEGORY_DATA}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
+                  innerRadius={0}
                   outerRadius={90}
                   paddingAngle={2}
                   dataKey="value"
                   nameKey="name"
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  animationBegin={0}
+                  animationDuration={800}
                 >
                   {CATEGORY_DATA.map((entry, i) => (
                     <Cell key={i} fill={entry.color} />
@@ -154,7 +156,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-4 md:p-6 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6 overflow-hidden">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Cash Flow Overview</h2>
           <div className="h-[260px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
@@ -171,7 +173,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="lg:col-span-2 bg-white rounded-xl border border-amber-200 p-4 md:p-6 overflow-hidden bg-amber-50/30">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-amber-100 p-5 md:p-6 overflow-hidden bg-amber-50/40 shadow-soft">
           <h2 className="text-lg font-semibold text-gray-900 mb-1 flex items-center gap-2">
             <Wrench className="w-5 h-5 text-amber-600" />
             Driver Maintenance Overview
